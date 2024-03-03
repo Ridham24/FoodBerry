@@ -5,7 +5,7 @@ import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu'
 const Navbar = () => {
   return (
     <Stack direction="row" sx={{ bgcolor: '#b3f763', fontSize: '20px' }}>
-      <RestaurantMenuIcon sx={{height:'auto'}} />
+      <RestaurantMenuIcon sx={{ height: 'auto' }} />
       <Typography variant="h4">FoodBerry</Typography>
       <Link
         to="/"
@@ -23,12 +23,23 @@ const Navbar = () => {
         style={{
           textDecoration: 'none',
           marginLeft: 'auto',
-          marginRight: '20px',
           paddingTop: '10px',
           color: 'black',
         }}
       >
         Login
+      </Link>
+      <Link
+        to="/register"
+        style={{
+          textDecoration: 'none',
+          marginLeft: 'auto',
+          marginRight: '20px',
+          paddingTop: '10px',
+          color: 'black',
+        }}
+      >
+        Register
       </Link>
     </Stack>
   )

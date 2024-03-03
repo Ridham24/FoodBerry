@@ -1,9 +1,11 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
+app.use(cors())
 const connectDB = require('./connect')
 require('dotenv').config()
-const router = require('./routes/Foods.js')
-// router()
+app.use(express.json())
+app.use('/user', require('./routes/CreateUser'))
 const start = async () => {
   try {
     // console.log(process.env.MONGO_URL)

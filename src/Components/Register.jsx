@@ -17,9 +17,38 @@ import createTheme from '@mui/material/styles/createTheme'
 import axios from 'axios'
 const defaultTheme = createTheme()
 import api from './../api'
-const Login = () => {
+
+const Register = () => {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [location, setLocation] = useState('')
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      console.log({
+        name: name,
+        email: email,
+        password: password,
+        location: location,
+      })
+      await api.post(
+        '/user/register',
+        {
+          name: name,
+          email: email,
+          password: password,
+          location: location,
+        }
+      )
+      setName('')
+      setEmail('')
+      setPassword('')
+      setLocation('')
+    } catch (error) {
+      alert('Enter Valid Credentials')
+    }
+  }
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -36,14 +65,26 @@ const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Login
+            Register
           </Typography>
           <Box
             component="form"
             noValidate
             sx={{ mt: 1 }}
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
           >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Full Name"
+              name="name"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoFocus
+            />
             <TextField
               margin="normal"
               required
@@ -67,17 +108,28 @@ const Login = () => {
               id="password"
               autoComplete="current-password"
             />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="location"
+              label="location"
+              id="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              autoComplete="location"
+            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Login
+              Register
             </Button>
             <Grid container>
               <Grid item>
-                <Link to="/register">{"Don't have an account? Register"}</Link>
+                <Link to="/login">{'Already have an account? Login'}</Link>
               </Grid>
             </Grid>
           </Box>
@@ -86,4 +138,4 @@ const Login = () => {
     </ThemeProvider>
   )
 }
-export default Login
+export default Register

@@ -1,1 +1,1 @@
-const Category = require('../Category')
+const Category = require('../models/Category')
