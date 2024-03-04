@@ -16,10 +16,30 @@ import { ThemeProvider } from '@mui/material'
 import createTheme from '@mui/material/styles/createTheme'
 import axios from 'axios'
 const defaultTheme = createTheme()
+import { useNavigate } from 'react-router-dom'
 import api from './../api'
 const Login = () => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const result = await api.post('/user/login', {
+        email: email,
+        password: password,
+      })
+      console.log(result)
+      if (!result.data.success) return alert('Enter valid credentials')
+      setEmail('')
+      setPassword('')
+      localStorage.setItem('authToken', result.data.authToken)
+      console.log(localStorage.getItem('authToken'))
+      navigate('/')
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -42,7 +62,7 @@ const Login = () => {
             component="form"
             noValidate
             sx={{ mt: 1 }}
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
           >
             <TextField
               margin="normal"

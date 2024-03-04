@@ -17,35 +17,27 @@ import createTheme from '@mui/material/styles/createTheme'
 import axios from 'axios'
 const defaultTheme = createTheme()
 import api from './../api'
-
 const Register = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [location, setLocation] = useState('')
   const handleSubmit = async (e) => {
+    // console.log(email, password)
     e.preventDefault()
     try {
-      console.log({
+      await api.post('/user/register', {
         name: name,
         email: email,
         password: password,
         location: location,
       })
-      await api.post(
-        '/user/register',
-        {
-          name: name,
-          email: email,
-          password: password,
-          location: location,
-        }
-      )
       setName('')
       setEmail('')
       setPassword('')
       setLocation('')
     } catch (error) {
+      console.log(error)
       alert('Enter Valid Credentials')
     }
   }
