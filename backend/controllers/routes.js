@@ -3,6 +3,7 @@ const validator = require('express-validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
+const Food = require('../models/FoodItems')
 const createUser = async (req, res) => {
   try {
     const result = validator.validationResult(req)
@@ -36,4 +37,15 @@ const getUser = async (req, res) => {
     console.log(error)
   }
 }
-module.exports = { createUser, getUser }
+const getFoods = async (req, res) => {
+ try{ 
+  const allFood = await Food.find({})
+  // console.log(allFood)
+    res.json(allFood)
+  }
+  catch (error)
+ {
+   console.log(error);
+  }
+}
+module.exports = { createUser, getUser,getFoods }

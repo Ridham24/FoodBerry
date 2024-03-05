@@ -6,6 +6,7 @@ const connectDB = require('./connect')
 require('dotenv').config()
 app.use(express.json())
 app.use('/user', require('./routes/CreateUser'))
+app.use('/home',require('./routes/Foods'))
 const start = async () => {
   try {
     // console.log(process.env.MONGO_URL)
