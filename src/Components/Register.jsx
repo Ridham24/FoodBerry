@@ -26,12 +26,19 @@ const Register = () => {
     // console.log(email, password)
     e.preventDefault()
     try {
-      await api.post('/user/register', {
-        name: name,
-        email: email,
-        password: password,
-        location: location,
+      const temp = await fetch('http://localhost:3000/user/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: password,
+          location: location,
+        }),
       })
+      const result = await temp.json()
+      console.log(result);
+      if(!result.success)return alert('Enter Valid Credentials')
       setName('')
       setEmail('')
       setPassword('')

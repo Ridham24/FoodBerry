@@ -16,7 +16,6 @@ const Home = () => {
         .catch((error) => {
           console.log(error)
         })
-      // console.log('hello')
     }
     getFood()
   }, [])

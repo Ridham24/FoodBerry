@@ -15,9 +15,9 @@ const createUser = async (req, res) => {
     const secPass = await bcrypt.hash(req.body.password, salt)
     req.body.password = secPass
     const task = await User.create(req.body)
-    res.send('Success')
+    res.json({success:true})
   } catch (err) {
-    res.send('controller issue')
+    res.json({success:false})
   }
 }
 const getUser = async (req, res) => {

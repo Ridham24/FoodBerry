@@ -25,16 +25,25 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const result = await api.post('/user/login', {
-        email: email,
-        password: password,
+      const temp = await fetch('http://localhost:3000/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      }).catch((error) => {
+        console.log(error)
       })
-      console.log(result)
-      if (!result.data.success) return alert('Enter valid credentials')
+      const result = await temp.json()
+      // console.log(result)
       setEmail('')
       setPassword('')
-      localStorage.setItem('authToken', result.data.authToken)
-      console.log(localStorage.getItem('authToken'))
+      if (!result.success) return alert('Enter Valid Credentials')
+      localStorage.setItem('authToken', result.authToken)
+      // console.log(localStorage.getItem('authToken'))
       navigate('/')
     } catch (error) {
       console.log(error)
