@@ -16,12 +16,14 @@ import { ThemeProvider } from '@mui/material'
 import createTheme from '@mui/material/styles/createTheme'
 import axios from 'axios'
 const defaultTheme = createTheme()
+import { useNavigate } from 'react-router-dom'
 import api from './../api'
 const Register = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [location, setLocation] = useState('')
+  const navigate = useNavigate()
   const handleSubmit = async (e) => {
     // console.log(email, password)
     e.preventDefault()
@@ -37,12 +39,13 @@ const Register = () => {
         }),
       })
       const result = await temp.json()
-      console.log(result);
-      if(!result.success)return alert('Enter Valid Credentials')
+      console.log(result)
+      if (!result.success) return alert('Enter Valid Credentials')
       setName('')
       setEmail('')
       setPassword('')
       setLocation('')
+      navigate('/login')
     } catch (error) {
       console.log(error)
       alert('Enter Valid Credentials')
