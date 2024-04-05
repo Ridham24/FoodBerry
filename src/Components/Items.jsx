@@ -5,7 +5,7 @@ const Items = ({ item }) => {
   const [quantity, setQuantity] = useState(1)
   const [mode, setMode] = useState(0)
   const options = item.options[0][0]
-  console.log(options)
+  // console.log(options)
   return (
     <Card
       sx={{
@@ -19,7 +19,7 @@ const Items = ({ item }) => {
         component="img"
         image={item.img}
         alt="Image"
-        sx={{ height: '100px' }}
+        sx={{ height: '130px', objectFit: 'fill' }}
       />
       <CardContent>
         <Typography variant="h5">{item.name}</Typography>
@@ -44,7 +44,9 @@ const Items = ({ item }) => {
             </option>
           ))}
         </select>
-        <Typography variant="subtitle1">Total Price :{mode * quantity}</Typography>
+        <Typography variant="subtitle1">
+          Total Price :{mode * quantity}
+        </Typography>
       </CardContent>
     </Card>
   )

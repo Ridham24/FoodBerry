@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const Food = require('../models/FoodItems')
+const Category=require('../models/Category')
 const createUser = async (req, res) => {
   try {
     const result = validator.validationResult(req)
@@ -15,9 +16,9 @@ const createUser = async (req, res) => {
     const secPass = await bcrypt.hash(req.body.password, salt)
     req.body.password = secPass
     const task = await User.create(req.body)
-    res.json({success:true})
+    res.json({ success: true })
   } catch (err) {
-    res.json({success:false})
+    res.json({ success: false })
   }
 }
 const getUser = async (req, res) => {
@@ -25,27 +26,49 @@ const getUser = async (req, res) => {
     const data = await User.findOne({ email: req.body.email })
     if (!data) return res.status(401).json({ success: false })
     const cmp = await bcrypt.compare(req.body.password, data.password)
-    if (!cmp) res.json({success:false})
+    if (!cmp) res.json({ success: false })
     else {
       const token = {
-    user:{id:data.id}
+        user: { id: data.id },
       }
-      const authToken=jwt.sign(token,process.env.JWT_SECRET)
-      res.json({success:true,authToken:authToken})
+      const authToken = jwt.sign(token, process.env.JWT_SECRET)
+      res.json({ success: true, authToken: authToken })
     }
   } catch (error) {
     console.log(error)
   }
 }
 const getFoods = async (req, res) => {
- try{ 
-  const allFood = await Food.find({})
-  // console.log(allFood)
+  try {
+    const allFood = await Food.find({})
+    // console.log(allFood)
     res.json(allFood)
-  }
-  catch (error)
- {
-   console.log(error);
+  } catch (error) {
+    console.log(error)
   }
 }
-module.exports = { createUser, getUser,getFoods }
+const getCategoryFood = async (req, res) => {
+  try {
+    const catFood = await Food.find({ CategoryName: req.body.category })
+    res.json(catFood)
+  } catch (error) {
+    console.log(error)
+  }
+}
+const getAllCategory = async (req, res) => {
+  try {
+    const categories = await Category.find({})
+    res.json(categories)
+  }
+  catch (error)
+  {
+
+  }
+}
+module.exports = {
+  createUser,
+  getUser,
+  getFoods,
+  getCategoryFood,
+  getAllCategory,
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Stack, Typography } from '@mui/material'
+import { Stack, Typography, Box } from '@mui/material'
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu'
 const Navbar = () => {
   return (
@@ -18,29 +18,29 @@ const Navbar = () => {
       >
         Home
       </Link>
-      <Link
-        to="/login"
-        style={{
-          textDecoration: 'none',
-          marginLeft: 'auto',
-          paddingTop: '10px',
-          color: 'black',
-        }}
-      >
-        Login
-      </Link>
-      <Link
-        to="/register"
-        style={{
-          textDecoration: 'none',
-          marginLeft: 'auto',
-          marginRight: '20px',
-          paddingTop: '10px',
-          color: 'black',
-        }}
-      >
-        Register
-      </Link>
+      <Box sx={{ marginLeft: 'auto', padding: '10px' }}>
+        <Link
+          to="/login"
+          style={{
+            textDecoration: 'none',
+            paddingTop: '10px',
+            color: 'black',
+          }}
+        >
+          Login
+        </Link>
+        <Link
+          to="/register"
+          style={{
+            textDecoration: 'none',
+            paddingTop: '10px',
+            color: 'black',
+            marginLeft: '10px',
+          }}
+        >
+          Register
+        </Link>
+      </Box>
     </Stack>
   )
 }
