@@ -15,12 +15,13 @@ import FilterAlt from '@mui/icons-material/FilterAlt'
 import api from '../api'
 const Home = () => {
   const [items, setItems] = useState()
-  const [allCategory, setAllCategory] = useState(['hello'])
+  const [allCategory, setAllCategory] = useState([])
   const [load, setLoad] = useState(true)
   const [load2, setLoad2] = useState(true)
   const [category, setCategory] = useState('None')
   const [anchorEl, setAnchorEl] = useState(false)
   const [allItems, setAllItems] = useState()
+  const [search, setSearch] = useState('')
   const open = Boolean(anchorEl)
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget)
@@ -33,6 +34,15 @@ const Home = () => {
     setAnchorEl(null)
     // console.log(category)
   }
+  useEffect(() => {
+    if (search != '') {
+      const temp = allItems?.filter((one) =>
+        one.name.toLowerCase().includes(search.toLowerCase())
+      )
+      console.log(temp)
+      setItems(temp)
+    } else setItems(allItems)
+  }, [search])
   useEffect(() => {
     if (category != 'None') {
       const temp = []
@@ -61,20 +71,19 @@ const Home = () => {
           setAllCategory(temp)
           setTimeout(() => {}, 1000)
           setLoad2(true)
-          console.log(temp)
+          // console.log(temp)
         }
       )
       setLoad(true)
     }
     getFood()
   }, [])
-  // if (load&&load2) return <p>Loading...</p>
   return (
     <>
       <Box sx={{ position: 'relative' }}>
         <ImageSliderAuto />
         <Box sx={{ position: 'absolute' }} left="35%" top="80%" right="40%">
-          <SearchBar />
+          <SearchBar search={search} setSearch={setSearch} />
         </Box>
       </Box>
       <div style={{ display: 'flex' }}>
@@ -107,9 +116,9 @@ const Home = () => {
           ))}
         </Menu>
       </div>
-      <Grid container spacing="10" columns="16" sx={{ ml: '30px' }}>
+      <Grid container spacing="10" sx={{ ml: '30px' }}>
         {items?.map((item) => (
-          <Grid item md={4}>
+          <Grid item xs={6} md={6} lg={3}>
             <Items item={item} />
           </Grid>
         ))}

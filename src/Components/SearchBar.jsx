@@ -1,6 +1,5 @@
 import { Paper, IconButton, Box } from '@mui/material'
-import { Search } from '@mui/icons-material'
-const SearchBar = () => {
+const SearchBar = ({search,setSearch}) => {
   return (
     <Paper
       component="form"
@@ -10,14 +9,14 @@ const SearchBar = () => {
         placeholder="Search..."
         style={{
           marginLeft: '10px',
+          marginTop:'8px',
           width: '84%',
           border: 'none',
           outline: 'none',
         }}
+        value={search}
+        onChange={(e)=>setSearch(e.target.value)}
       />
-      <IconButton>
-        <Search />
-      </IconButton>
     </Paper>
   )
 }

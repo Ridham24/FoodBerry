@@ -45,7 +45,7 @@ const Items = ({ item }) => {
           ))}
         </select>
         <Typography variant="subtitle1">
-          Total Price :{mode * quantity}
+          Total Price :₹{mode * quantity}
         </Typography>
       </CardContent>
     </Card>
