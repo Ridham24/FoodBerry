@@ -1,46 +1,101 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Stack, Typography, Box } from '@mui/material'
+import { Stack, Typography, Box,Button } from '@mui/material'
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu'
+import { useNavigate } from 'react-router-dom'
 const Navbar = () => {
+  const navigate=useNavigate()
   return (
     <Stack direction="row" sx={{ bgcolor: '#b3f763', fontSize: '20px' }}>
       <RestaurantMenuIcon sx={{ height: 'auto' }} />
-      <Typography variant="h4">FoodBerry</Typography>
       <Link
         to="/"
         style={{
           textDecoration: 'none',
-          paddingTop: '10px',
-          marginLeft: '30px',
+          paddingTop: '14px',
           color: 'black',
         }}
       >
-        Home
+        <Typography variant="h5">FoodBerry</Typography>
       </Link>
-      <Box sx={{ marginLeft: 'auto', padding: '10px' }}>
-        <Link
-          to="/login"
-          style={{
-            textDecoration: 'none',
-            paddingTop: '10px',
-            color: 'black',
-          }}
-        >
-          Login
-        </Link>
-        <Link
-          to="/register"
-          style={{
-            textDecoration: 'none',
-            paddingTop: '10px',
-            color: 'black',
-            marginLeft: '10px',
-          }}
-        >
-          Register
-        </Link>
-      </Box>
+      {localStorage.getItem('authToken') && (
+        <Box sx={{ padding: '10px', boxShadow: '50px' }}>
+          <Button
+            onClick={() => navigate('/orders')}
+            style={{
+              textDecoration: 'none',
+              borderRadius: '8px',
+              paddingTop: '10px',
+              color: '#b3f763',
+              backgroundColor: 'white',
+            }}
+          >
+            My Orders
+          </Button>
+        </Box>
+      )}
+      {!localStorage.getItem('authToken') && (
+        <Box sx={{ marginLeft: 'auto', padding: '10px' }}>
+          <Button
+            onClick={() => navigate('/login')}
+            style={{
+              textDecoration: 'none',
+              paddingTop: '10px',
+              borderRadius: '8px',
+              color: '#b3f763',
+              backgroundColor: 'white',
+            }}
+          >
+            Login
+          </Button>
+          <Button
+            onClick={() => navigate('/register')}
+            style={{
+              textDecoration: 'none',
+              paddingTop: '10px',
+              borderRadius: '8px',
+              color: '#b3f763',
+              marginLeft: '10px',
+              backgroundColor: 'white',
+            }}
+          >
+            Register
+          </Button>
+        </Box>
+      )}
+      {localStorage.getItem('authToken') && (
+        <Box sx={{ marginLeft: 'auto', padding: '10px' }}>
+          <Button
+            onClick={() => navigate('/cart')}
+            style={{
+              textDecoration: 'none',
+              paddingTop: '10px',
+              borderRadius: '8px',
+              color: '#b3f763',
+              marginLeft: '10px',
+              backgroundColor: 'white',
+            }}
+          >
+            Cart
+          </Button>
+          <Button
+            onClick={() => {
+              localStorage.removeItem('authToken')
+              window.location.reload()
+            }}
+            style={{
+              textDecoration: 'none',
+              paddingTop: '10px',
+              borderRadius: '8px',
+              color: '#b3f763',
+              marginLeft: '10px',
+              backgroundColor: 'white',
+            }}
+          >
+            LogOut
+          </Button>
+        </Box>
+      )}
     </Stack>
   )
 }
