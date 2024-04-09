@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Stack, Typography, Box,Button } from '@mui/material'
+import { Stack, Typography, Box, Button } from '@mui/material'
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu'
 import { useNavigate } from 'react-router-dom'
+import {ShoppingCart} from '@mui/icons-material'
 const Navbar = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   return (
     <Stack direction="row" sx={{ bgcolor: '#b3f763', fontSize: '20px' }}>
       <RestaurantMenuIcon sx={{ height: 'auto' }} />
@@ -76,12 +77,12 @@ const Navbar = () => {
               backgroundColor: 'white',
             }}
           >
-            Cart
+            <ShoppingCart />
           </Button>
           <Button
             onClick={() => {
               localStorage.removeItem('authToken')
-              window.location.reload()
+              navigate('/login')
             }}
             style={{
               textDecoration: 'none',
