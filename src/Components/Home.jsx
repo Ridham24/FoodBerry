@@ -12,15 +12,15 @@ import ImageSliderAuto from './Carousel/ImageSliderAuto'
 import SearchBar from './SearchBar'
 import { useEffect, useState } from 'react'
 import FilterAlt from '@mui/icons-material/FilterAlt'
-import api from '../api'
+import { useSelector,useDispatch } from 'react-redux'
+import { loadCurrent } from '../features/itemSlice'
 const Home = () => {
-  const [items, setItems] = useState()
-  const [allCategory, setAllCategory] = useState([])
-  const [load, setLoad] = useState(true)
-  const [load2, setLoad2] = useState(true)
+  const dispatch=useDispatch()
+  const allItems = useSelector((state) => state.reducers.items)
+  const allCategory = useSelector((state) => state.reducers.categories)
+  const items=useSelector((state)=>state.reducers.currentItems)
   const [category, setCategory] = useState('None')
   const [anchorEl, setAnchorEl] = useState(false)
-  const [allItems, setAllItems] = useState()
   const [search, setSearch] = useState('')
   const open = Boolean(anchorEl)
   const handleClick = (e) => {
@@ -32,52 +32,24 @@ const Home = () => {
   const handleChange = (categoryName) => {
     setCategory(categoryName)
     setAnchorEl(null)
-    // console.log(category)
   }
   useEffect(() => {
     if (search != '') {
       const temp = allItems?.filter((one) =>
         one.name.toLowerCase().includes(search.toLowerCase())
       )
-      console.log(temp)
-      setItems(temp)
-    } else setItems(allItems)
+      dispatch(loadCurrent(temp))
+    } else dispatch(loadCurrent(allItems))
   }, [search])
   useEffect(() => {
     if (category != 'None') {
-      const temp = []
-      allItems?.map((cat) => {
-        if (cat.CategoryName == category) temp.push(cat)
-      })
-      setItems(temp)
+      const temp = allItems?.filter((item)=>item.CategoryName == category)
+      dispatch(loadCurrent(temp))
     }
     if (category === 'None') {
-      setItems(allItems)
+      dispatch(loadCurrent(allItems))
     }
   }, [category])
-  useEffect(() => {
-    const getFood = async () => {
-      setLoad(false)
-      await fetch('http://localhost:3000/home', { method: 'GET' })
-        .then(async (result) => {
-          const temp = await result.json()
-          setItems(temp)
-          setAllItems(temp)
-        })
-        .catch((error) => console.log(error))
-      await fetch('http://localhost:3000/category', { METHOD: 'GET' }).then(
-        async (result) => {
-          const temp = await result.json()
-          setAllCategory(temp)
-          setTimeout(() => {}, 1000)
-          setLoad2(true)
-          // console.log(temp)
-        }
-      )
-      setLoad(true)
-    }
-    getFood()
-  }, [])
   return (
     <>
       <Box sx={{ position: 'relative' }}>
@@ -123,7 +95,6 @@ const Home = () => {
           </Grid>
         ))}
       </Grid>
-      {/* </Stack> */}
     </>
   )
 }
