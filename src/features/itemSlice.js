@@ -3,7 +3,8 @@ const initialState = {
     cart: [],
     items: [],
     currentItems:[],
-    categories:[]
+    categories: [],
+    user_id:""
 }
 
 const itemSlice = createSlice({
@@ -21,9 +22,18 @@ const itemSlice = createSlice({
         },
         loadCategory: (state, action) => {
             state.categories=action.payload
+        },
+        resetCart: (state, action) => {
+            state.cart=[]
+        },
+        loadCart: (state, action) => {
+            state.cart=action.payload
+        },
+        updateUser: (state, action) => {
+            state.user_id=action.payload
         }
     },
 })
-export const {addItem,loadItems,loadCategory,loadCurrent}=itemSlice.actions
+export const {addItem,loadItems,loadCategory,loadCurrent,resetCart,loadCart,updateUser}=itemSlice.actions
 export default itemSlice.reducer
 

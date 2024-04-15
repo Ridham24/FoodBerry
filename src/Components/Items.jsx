@@ -4,33 +4,55 @@ import { AddCircle } from '@mui/icons-material'
 import {RemoveCircle} from '@mui/icons-material'
 import { useSelector, useDispatch } from 'react-redux'
 import { addItem } from '../features/itemSlice'
+import { useNavigate } from 'react-router-dom'
 const Items = ({ item }) => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
+  const navigate=useNavigate()
   const [quantity, setQuantity] = useState(1)
   const [mode, setMode] = useState(0)
   const [toast,setToast]=useState(false)
   const options = item.options[0][0]
   const cart = useSelector((state) => state.reducers.cart)
+  const id = useSelector((state) => state.reducers.user_id)
   // console.log(cart?.length);
   // console.log(cart);
-  const handleClick = () => {
+  const handleClick =async () => {
     if (mode == 0)
     {
       setToast(true)
     }
     else
     {
-      const temp = cart.find((items) => items.id == item._id && items.mode==mode)
-      // console.log(temp);
-      if (temp)
+      if (localStorage.getItem('authToken')) {
+        console.log(cart);
+        const temp = cart?.find(
+          (items) => items.id == item._id && items.mode == mode
+        )||false
+        // console.log(temp);
+        if (temp) setToast(true)
+        else {
+          dispatch(
+            addItem({
+              id: item._id,
+              quantity: quantity,
+              mode: mode,
+            }))
+            const temp = await fetch('http://localhost:3000/cart', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                id: id,
+                cart: {
+                  id: item._id,
+                  quantity: quantity,
+                  mode: mode,
+                },
+              }),
+            })
+        }
+      } else {
         setToast(true)
-      else {
-        dispatch(
-          addItem({
-            id: item._id,
-            quantity: quantity,
-            mode: mode,
-          }))
+        navigate('/login')
       }
       }
     
@@ -49,6 +71,7 @@ const Items = ({ item }) => {
           borderRadius: '10px',
           borderColor: '#6c6363',
           borderWidth: '10px',
+          padding:'30px'
         }}
       >
         <CardMedia

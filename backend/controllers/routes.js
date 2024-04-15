@@ -4,7 +4,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const Food = require('../models/FoodItems')
-const Category=require('../models/Category')
+const Category = require('../models/Category')
+const Cart=require('../models/Cart')
 const createUser = async (req, res) => {
   try {
     const result = validator.validationResult(req)
@@ -29,8 +30,9 @@ const getUser = async (req, res) => {
     if (!cmp) res.json({ success: false })
     else {
       const token = {
-        user: { id: data.id },
+        user: { id: data._id },
       }
+      console.log(data._id);
       const authToken = jwt.sign(token, process.env.JWT_SECRET)
       res.json({ success: true, authToken: authToken })
     }
@@ -65,10 +67,48 @@ const getAllCategory = async (req, res) => {
 
   }
 }
+const updateCart = async (req, res) => {
+  try {
+    const id = req.body.id
+    const cart = req.body.cart
+    const temp = await Cart.findOne({ userId: id })
+    console.log(temp);
+    if (temp)
+    {
+      const tempo=await Cart.findOneAndUpdate({ userId: id},{cartItems:[...temp.cartItems,cart]})
+    }
+    else {
+      const tempo=await Cart.create({userId:id,cartItems:[cart]})
+    }
+    res.json(temp)
+  }
+  catch (error)
+  {
+    console.log(error);
+  }
+}
+const verify = (req, res) => {
+  const decoded = jwt.verify(req.body.token, process.env.JWT_SECRET)
+  res.json(decoded)
+}
+const getCart =async (req, res) => {
+  try {
+    const id = req.body.token
+    const temp = await Cart.findOne({userId:id})
+    res.json(temp)
+  }
+  catch (error)
+  {
+    console.log(error);
+  }
+}
 module.exports = {
   createUser,
   getUser,
   getFoods,
   getCategoryFood,
   getAllCategory,
+  updateCart,
+  verify,
+  getCart
 }

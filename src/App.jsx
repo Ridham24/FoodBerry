@@ -1,7 +1,7 @@
 import AppRouter from './AppRouter'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { loadCategory, loadItems,loadCurrent } from './features/itemSlice'
+import { loadCategory, loadItems, loadCurrent, updateUser,loadCart } from './features/itemSlice'
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -19,12 +19,70 @@ function App() {
           dispatch(loadCategory(temp))
         }
       )
+      const token = localStorage.getItem('authToken') || null
+      if (token)
+      {
+        const decoded = await fetch('http://localhost:3000/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            token: token,
+          }),
+        })
+        const result = await decoded.json()
+        dispatch(updateUser(result.user.id))
+        console.log(result.user.id);
+        const newCart = await fetch('http://localhost:3000/cart/load', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            token: result.user.id,
+          }),
+        })
+        const res=await newCart.json()
+        console.log(res);
+      dispatch(loadCart(res))
+      }
+      // dispatch(setFlag())
     }
     getFood()
   }, [])
+  // const cart = useSelector((state) => state.reducers.cart)
+  // useEffect(() => {
+  //   const update = async () => {
+  //     try {
+  //       const token = localStorage.getItem('authToken') || null
+  //       if(token)
+  //       {
+  //         const decoded = await fetch('http://localhost:3000/verify', {
+  //           method: 'POST',
+  //           headers: { 'Content-Type': 'application/json' },
+  //           body: JSON.stringify({
+  //             token: token,
+  //           }),
+  //         })
+  //         const result = await decoded.json()
+          // console.log(result);
+  //         const updated = await fetch('http://localhost:3000/cart', {
+  //           method: 'PUT',
+  //           headers: { 'Content-Type': 'application/json' },
+  //           body: JSON.stringify({
+  //             id: result.user.id,
+  //             cart: cart,
+  //           }),
+  //         })
+  //       }
+  //     }
+  //     catch (error)
+  //     {
+  //       console.log(error);
+  //     }
+  //   }
+  //   update()
+  // }, [cart])
   return (
     <>
-        <AppRouter />
+      <AppRouter />
     </>
   )
 }

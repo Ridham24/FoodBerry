@@ -7,7 +7,9 @@ require('dotenv').config()
 app.use(express.json())
 app.use('/user', require('./routes/CreateUser'))
 app.use('/home', require('./routes/Foods'))
-app.use('/category',require('./routes/Category'))
+app.use('/category', require('./routes/Category'))
+app.use('/cart',require('./routes/Cart'))
+app.use('/verify', require('./routes/Auth'))
 const start = async () => {
   try {
     // console.log(process.env.MONGO_URL)

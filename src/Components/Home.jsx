@@ -88,7 +88,7 @@ const Home = () => {
           ))}
         </Menu>
       </div>
-      <Grid container spacing="10" sx={{ ml: '50px' }}>
+      <Grid container spacing="10">
         {items?.map((item) => (
           <Grid item xs={6} md={6} lg={3}>
             <Items item={item} />

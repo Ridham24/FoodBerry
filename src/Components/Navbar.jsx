@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom'
 import { Stack, Typography, Box, Button } from '@mui/material'
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu'
 import { useNavigate } from 'react-router-dom'
-import {ShoppingCart} from '@mui/icons-material'
+import { ShoppingCart } from '@mui/icons-material'
+import { resetCart } from '../features/itemSlice'
+import { useDispatch } from 'react-redux'
 const Navbar = () => {
+  const dispatch=useDispatch()
   const navigate = useNavigate()
   return (
     <Stack direction="row" sx={{ bgcolor: '#b3f763', fontSize: '20px' }}>
