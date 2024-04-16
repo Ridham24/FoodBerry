@@ -31,9 +31,12 @@ const itemSlice = createSlice({
         },
         updateUser: (state, action) => {
             state.user_id=action.payload
+        },
+        deleteItem: (state, action) => {
+            state.cart = state.cart.filter((item) => item.id !== action.payload)
         }
     },
 })
-export const {addItem,loadItems,loadCategory,loadCurrent,resetCart,loadCart,updateUser}=itemSlice.actions
+export const {addItem,loadItems,loadCategory,loadCurrent,resetCart,loadCart,updateUser,deleteItem}=itemSlice.actions
 export default itemSlice.reducer
 

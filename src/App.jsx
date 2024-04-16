@@ -31,7 +31,7 @@ function App() {
         })
         const result = await decoded.json()
         dispatch(updateUser(result.user.id))
-        console.log(result.user.id);
+        // console.log(result.user.id);
         const newCart = await fetch('http://localhost:3000/cart/load', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -39,9 +39,14 @@ function App() {
             token: result.user.id,
           }),
         })
-        const res=await newCart.json()
-        console.log(res);
-      dispatch(loadCart(res))
+        
+        const res = await newCart.json()
+        // console.log(res);
+        if(res)
+        {
+          // console.log(res)
+          dispatch(loadCart(res))
+        }
       }
       // dispatch(setFlag())
     }

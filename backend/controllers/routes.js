@@ -95,11 +95,25 @@ const getCart =async (req, res) => {
   try {
     const id = req.body.token
     const temp = await Cart.findOne({userId:id})
-    res.json(temp)
+    res.json(temp.cartItems)
   }
   catch (error)
   {
     console.log(error);
+  }
+}
+const deleteItem = async(req,res) => {
+  try {
+    const user_id = req.body.user_id
+    const temp = await Cart.findOne({ userId: user_id })
+    const cart = temp.cartItems
+    const newCart = cart.filter((item) => item.id !== req.body.id)
+    const tem = await Cart.findOneAndUpdate({ userId: user_id }, { cartItems: newCart })
+    res.json(tem)
+  }
+  catch(error)
+  {
+    console.log(error)
   }
 }
 module.exports = {
@@ -110,5 +124,6 @@ module.exports = {
   getAllCategory,
   updateCart,
   verify,
-  getCart
+  getCart,
+  deleteItem
 }
