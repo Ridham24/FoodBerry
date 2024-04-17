@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const Food = require('../models/FoodItems')
 const Category = require('../models/Category')
-const Cart=require('../models/Cart')
+const Cart = require('../models/Cart')
 const createUser = async (req, res) => {
   try {
     const result = validator.validationResult(req)
@@ -32,7 +32,7 @@ const getUser = async (req, res) => {
       const token = {
         user: { id: data._id },
       }
-      console.log(data._id);
+      console.log(data._id)
       const authToken = jwt.sign(token, process.env.JWT_SECRET)
       res.json({ success: true, authToken: authToken })
     }
@@ -61,58 +61,54 @@ const getAllCategory = async (req, res) => {
   try {
     const categories = await Category.find({})
     res.json(categories)
-  }
-  catch (error)
-  {
-
-  }
+  } catch (error) {}
 }
 const updateCart = async (req, res) => {
   try {
     const id = req.body.id
     const cart = req.body.cart
     const temp = await Cart.findOne({ userId: id })
-    console.log(temp);
-    if (temp)
-    {
-      const tempo=await Cart.findOneAndUpdate({ userId: id},{cartItems:[...temp.cartItems,cart]})
-    }
-    else {
-      const tempo=await Cart.create({userId:id,cartItems:[cart]})
+    console.log(temp)
+    if (temp) {
+      const tempo = await Cart.findOneAndUpdate(
+        { userId: id },
+        { cartItems: [...temp.cartItems, cart] }
+      )
+    } else {
+      const tempo = await Cart.create({ userId: id, cartItems: [cart] })
     }
     res.json(temp)
-  }
-  catch (error)
-  {
-    console.log(error);
+  } catch (error) {
+    console.log(error)
   }
 }
 const verify = (req, res) => {
   const decoded = jwt.verify(req.body.token, process.env.JWT_SECRET)
   res.json(decoded)
 }
-const getCart =async (req, res) => {
+const getCart = async (req, res) => {
   try {
     const id = req.body.token
-    const temp = await Cart.findOne({userId:id})
+    const temp = await Cart.findOne({ userId: id })
     res.json(temp.cartItems)
-  }
-  catch (error)
-  {
-    console.log(error);
+  } catch (error) {
+    console.log(error)
   }
 }
-const deleteItem = async(req,res) => {
+const deleteItem = async (req, res) => {
   try {
     const user_id = req.body.user_id
     const temp = await Cart.findOne({ userId: user_id })
     const cart = temp.cartItems
-    const newCart = cart.filter((item) => item.id !== req.body.id)
-    const tem = await Cart.findOneAndUpdate({ userId: user_id }, { cartItems: newCart })
+    const newCart = cart.filter(
+      (item) => item.id !== req.body.id || item.mode !== req.body.modes
+    )
+    const tem = await Cart.findOneAndUpdate(
+      { userId: user_id },
+      { cartItems: newCart }
+    )
     res.json(tem)
-  }
-  catch(error)
-  {
+  } catch (error) {
     console.log(error)
   }
 }
@@ -125,5 +121,5 @@ module.exports = {
   updateCart,
   verify,
   getCart,
-  deleteItem
+  deleteItem,
 }

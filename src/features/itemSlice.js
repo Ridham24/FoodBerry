@@ -33,7 +33,7 @@ const itemSlice = createSlice({
             state.user_id=action.payload
         },
         deleteItem: (state, action) => {
-            state.cart = state.cart.filter((item) => item.id !== action.payload)
+            state.cart = state.cart.filter((item) => item.id !== action.payload.id || item.mode!==action.payload.modes)
         }
     },
 })
