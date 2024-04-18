@@ -4,7 +4,9 @@ const initialState = {
     items: [],
     currentItems:[],
     categories: [],
-    user_id:""
+    user_id: "",
+    curCartItem:{},
+    curModes:""
 }
 
 const itemSlice = createSlice({
@@ -34,9 +36,15 @@ const itemSlice = createSlice({
         },
         deleteItem: (state, action) => {
             state.cart = state.cart.filter((item) => item.id !== action.payload.id || item.mode!==action.payload.modes)
+        },
+        curCart: (state, action) => {
+            state.curCartItem=action.payload
+        },
+        curMode: (state, action) => {
+            state.curModes=action.payload
         }
     },
 })
-export const {addItem,loadItems,loadCategory,loadCurrent,resetCart,loadCart,updateUser,deleteItem}=itemSlice.actions
+export const {addItem,loadItems,loadCategory,loadCurrent,resetCart,loadCart,updateUser,deleteItem,curCart,curMode}=itemSlice.actions
 export default itemSlice.reducer
 

@@ -10,7 +10,7 @@ const Items = ({ item }) => {
   const navigate=useNavigate()
   const [quantity, setQuantity] = useState(1)
   const [mode, setMode] = useState(0)
-  const [toast,setToast]=useState(false)
+  const [toast, setToast] = useState(false)
   const options = item.options[0][0]
   const cart = useSelector((state) => state.reducers.cart)
   const id = useSelector((state) => state.reducers.user_id)
