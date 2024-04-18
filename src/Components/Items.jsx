@@ -24,13 +24,7 @@ const Items = ({ item }) => {
     else
     {
       if (localStorage.getItem('authToken')) {
-        console.log(cart);
-        const temp = cart?.find(
-          (items) => items.id == item._id && items.mode == mode
-        )||false
-        // console.log(temp);
-        if (temp) setToast(true)
-        else {
+        
           dispatch(
             addItem({
               id: item._id,
@@ -49,7 +43,6 @@ const Items = ({ item }) => {
                 },
               }),
             })
-        }
       } else {
         setToast(true)
         navigate('/login')

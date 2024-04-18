@@ -30,7 +30,7 @@ const Cart = () => {
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
-    setQuantity(0)
+    setQuantity(1)
     setMode("")
   }
   const dispatch = useDispatch()
@@ -47,7 +47,7 @@ const Cart = () => {
       }),
     })
     const res = await temp.json()
-    // console.log(res)
+    console.log(res)
   }
   const handleEdit =async ({ quantity, Mode, modal,curModes }) => {
     console.log(quantity, Mode, modal, curModes) 
@@ -55,8 +55,8 @@ const Cart = () => {
       setToast(true)
     } else {
     const id=modal._id
-    dispatch(deleteItem({id,curModes}))
-    const temp = await fetch('http://localhost:3000/cart/delete', {
+    dispatch(deleteItem({id,modes:curModes}))
+    const temp1 = await fetch('http://localhost:3000/cart/delete', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -65,12 +65,9 @@ const Cart = () => {
         modes:curModes
       }),
     })
-    const res = await temp.json()
-        const temp1 =
-          cart?.find((items) => items.id == id && items.mode == Mode) ||
-          false
-        if (temp1) setToast(true)
-        else {
+      const res = await temp1.json()
+      // handleRemove(id,curModes)
+       
           dispatch(
             addItem({
               id: id,
@@ -91,7 +88,9 @@ const Cart = () => {
             }),
           })
         }
-      } 
+    setOpen(false)
+    setMode(0)
+    setQuantity(1)
     }
     
   
@@ -158,18 +157,6 @@ const Cart = () => {
                       <AddCircle sx={{ fontSize: '20px' }} />
                     </IconButton> */}
                   </Stack>
-
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => {
-                      handleRemove(curItem[0]._id, item.mode)
-                      console.log(curItem)
-                    }}
-                    sx={{ ml: '8px' }}
-                  >
-                    Remove
-                  </Button>
                   <Button
                     variant="contained"
                     onClick={() => {
@@ -180,6 +167,17 @@ const Cart = () => {
                     }}
                   >
                     Edit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => {
+                      handleRemove(curItem[0]._id, item.mode)
+                      console.log(curItem)
+                    }}
+                    sx={{ ml: '8px' }}
+                  >
+                    Remove
                   </Button>
                 </CardContent>
               </Stack>

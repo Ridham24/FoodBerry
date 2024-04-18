@@ -70,9 +70,19 @@ const updateCart = async (req, res) => {
     const temp = await Cart.findOne({ userId: id })
     console.log(temp)
     if (temp) {
+      const theCart = temp.cartItems
+      var flag=0
+      theCart.map((item) => {
+        if (item.id == cart.id && item.mode == cart.mode) {
+          item.quantity = item.quantity + cart.quantity
+          flag = 1
+        }
+      })
+      if (flag == 0) theCart.push(cart)
+      flag = 0
       const tempo = await Cart.findOneAndUpdate(
         { userId: id },
-        { cartItems: [...temp.cartItems, cart] }
+        { cartItems: theCart }
       )
     } else {
       const tempo = await Cart.create({ userId: id, cartItems: [cart] })

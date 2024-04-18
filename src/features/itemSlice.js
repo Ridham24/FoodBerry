@@ -6,7 +6,8 @@ const initialState = {
     categories: [],
     user_id: "",
     curCartItem:{},
-    curModes:""
+    curModes: "",
+    flag:0
 }
 
 const itemSlice = createSlice({
@@ -20,7 +21,16 @@ const itemSlice = createSlice({
             state.currentItems=action.payload
         },
         addItem: (state, action) => {
-            state.cart.push(action.payload)
+            state.cart.map((item) => {
+                if (item.id == action.payload.id && item.mode == action.payload.mode)
+                {
+                    item.quantity = item.quantity + action.payload.quantity
+                    state.flag=1
+                    }
+            })
+            if(state.flag==0)
+                state.cart.push(action.payload)
+            state.flag=0
         },
         loadCategory: (state, action) => {
             state.categories=action.payload
