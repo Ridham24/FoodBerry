@@ -17,8 +17,10 @@ import createTheme from '@mui/material/styles/createTheme'
 import axios from 'axios'
 const defaultTheme = createTheme()
 import { useNavigate } from 'react-router-dom'
-import api from './../api'
+import {updateUser} from '../features/itemSlice'
+import { useDispatch } from 'react-redux'
 const Login = () => {
+  const dispatch=useDispatch()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -43,6 +45,15 @@ const Login = () => {
       setPassword('')
       if (!result.success) return alert('Enter Valid Credentials')
       localStorage.setItem('authToken', result.authToken)
+      const decoded = await fetch('http://localhost:3000/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token: result.authToken,
+        }),
+      })
+      const res = await decoded.json()
+      dispatch(updateUser(res.user.id))
       // console.log(localStorage.getItem('authToken'))
       navigate('/')
     } catch (error) {

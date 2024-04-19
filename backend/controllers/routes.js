@@ -6,6 +6,7 @@ require('dotenv').config()
 const Food = require('../models/FoodItems')
 const Category = require('../models/Category')
 const Cart = require('../models/Cart')
+const Orders=require('../models/Orders')
 const createUser = async (req, res) => {
   try {
     const result = validator.validationResult(req)
@@ -68,7 +69,7 @@ const updateCart = async (req, res) => {
     const id = req.body.id
     const cart = req.body.cart
     const temp = await Cart.findOne({ userId: id })
-    console.log(temp)
+    // console.log(temp)
     if (temp) {
       const theCart = temp.cartItems
       var flag=0
@@ -122,6 +123,43 @@ const deleteItem = async (req, res) => {
     console.log(error)
   }
 }
+const resetCart = async(req,res) => {
+  try {
+    const user_id = req.body.user_id
+    const temp = await Cart.findOne({ userId: user_id })
+    const cart = temp.cartItems
+    const tem = await Cart.findOneAndUpdate(
+      { userId: user_id },
+      { cartItems: [] }
+    )
+    res.json(tem)
+  } catch (error) {
+    console.log(error)
+  }
+}
+const addOrder = async(req,res) => {
+  try {
+    const user_id = req.body.user_id
+  const data = req.body.data
+  const temp = await Orders.findOne({ userId: user_id })
+  // console.log(temp)
+  if (temp) {
+    const Order = temp.Orders
+    Order.push(data)
+    const tempo = await Orders.findOneAndUpdate(
+      { userId: user_id },
+      { Orders: Order }
+    )
+  } else {
+    const tempo = await Orders.create({ userId: user_id, Orders:[data] })
+  }
+  res.json(temp)
+  }
+  catch (error)
+  {
+    console.log(error);
+  }
+}
 module.exports = {
   createUser,
   getUser,
@@ -132,4 +170,6 @@ module.exports = {
   verify,
   getCart,
   deleteItem,
+  addOrder,
+  resetCart
 }

@@ -10,6 +10,7 @@ app.use('/home', require('./routes/Foods'))
 app.use('/category', require('./routes/Category'))
 app.use('/cart',require('./routes/Cart'))
 app.use('/verify', require('./routes/Auth'))
+app.use('/orders',require('./routes/Order'))
 const start = async () => {
   try {
     // console.log(process.env.MONGO_URL)

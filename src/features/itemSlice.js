@@ -7,7 +7,8 @@ const initialState = {
     user_id: "",
     curCartItem:{},
     curModes: "",
-    flag:0
+    flag: 0,
+    Orders:[]
 }
 
 const itemSlice = createSlice({
@@ -52,9 +53,17 @@ const itemSlice = createSlice({
         },
         curMode: (state, action) => {
             state.curModes=action.payload
+        },
+        addOrders: (state, action) => {
+            const data = action.payload
+            const temp = state.Orders
+            console.log(data);
+            temp.push(data)
+            state.Orders = temp
+            state.cart=[]
         }
     },
 })
-export const {addItem,loadItems,loadCategory,loadCurrent,resetCart,loadCart,updateUser,deleteItem,curCart,curMode}=itemSlice.actions
+export const {addItem,loadItems,loadCategory,loadCurrent,resetCart,loadCart,updateUser,deleteItem,curCart,curMode,addOrders}=itemSlice.actions
 export default itemSlice.reducer
 

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { loadCategory, loadItems, loadCurrent, updateUser,loadCart } from './features/itemSlice'
 function App() {
   const dispatch = useDispatch()
+  const userId=useSelector((state)=>state.reducers.user_id)
   useEffect(() => {
     const getFood = async () => {
       await fetch('http://localhost:3000/home', { method: 'GET' })
@@ -52,6 +53,28 @@ function App() {
     }
     getFood()
   }, [])
+  useEffect(() => {
+    const setCart = async() => {
+      if (userId !== '') {
+        const newCart = await fetch('http://localhost:3000/cart/load', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            token: userId,
+          }),
+        })
+        
+        const res = await newCart.json()
+        // console.log(res);
+        if(res)
+        {
+          // console.log(res)
+          dispatch(loadCart(res))
+        }
+      }
+    }
+    setCart()
+  },[userId])
   // const cart = useSelector((state) => state.reducers.cart)
   // useEffect(() => {
   //   const update = async () => {
