@@ -17,8 +17,8 @@ import { deleteItem,curCart,curMode,addItem,resetCart ,addOrders} from '../featu
 import { AddCircle } from '@mui/icons-material'
 import { RemoveCircle } from '@mui/icons-material'
 import { useState } from 'react'
-const Cart = () => {
-  const cart = useSelector((state) => state.reducers.cart)
+const Cart = ({cart,flag}) => {
+  
   const items = useSelector((state) => state.reducers.items)
   const user_id = useSelector((state) => state.reducers.user_id)
   const modal = useSelector((state) => state.reducers.curCartItem)
@@ -184,7 +184,7 @@ const Cart = () => {
                       <AddCircle sx={{ fontSize: '20px' }} />
                     </IconButton> */}
                     </Stack>
-                    <Button
+                    {flag&&<Button
                       variant="contained"
                       onClick={() => {
                         handleOpen(true)
@@ -194,8 +194,8 @@ const Cart = () => {
                       }}
                     >
                       Edit
-                    </Button>
-                    <Button
+                    </Button>}
+                    {flag&&<Button
                       variant="contained"
                       color="error"
                       onClick={() => {
@@ -205,7 +205,7 @@ const Cart = () => {
                       sx={{ ml: '8px' }}
                     >
                       Remove
-                    </Button>
+                    </Button>}
                   </CardContent>
                 </Stack>
               </Card>
@@ -289,10 +289,10 @@ const Cart = () => {
         })}
       </Stack>
       <Box sx={{position:'absolute',left:'40%'}}>
-        <Button variant="contained" onClick={handleOrder}>Check Out</Button>
-        <Button variant="contained" color="error" sx={{ ml: '8px' }} onClick={handleClear}>
+        {flag&&<Button variant="contained" onClick={handleOrder}>Check Out</Button>}
+        {flag&&<Button variant="contained" color="error" sx={{ ml: '8px' }} onClick={handleClear}>
           Clear
-        </Button>
+        </Button>}
       </Box>
     </div>
   )

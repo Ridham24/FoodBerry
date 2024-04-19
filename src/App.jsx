@@ -1,7 +1,7 @@
 import AppRouter from './AppRouter'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { loadCategory, loadItems, loadCurrent, updateUser,loadCart } from './features/itemSlice'
+import { loadCategory, loadItems, loadCurrent, updateUser,loadCart,setOrders } from './features/itemSlice'
 function App() {
   const dispatch = useDispatch()
   const userId=useSelector((state)=>state.reducers.user_id)
@@ -48,6 +48,16 @@ function App() {
           // console.log(res)
           dispatch(loadCart(res))
         }
+        const Orders = await fetch('http://localhost:3000/orders/get', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: result.user.id,
+          }),
+        })
+        const order = await Orders.json()
+        dispatch(setOrders(order))
+        // console.log(order);
       }
       // dispatch(setFlag())
     }
@@ -71,6 +81,15 @@ function App() {
           // console.log(res)
           dispatch(loadCart(res))
         }
+        const Orders = await fetch('http://localhost:3000/orders/get', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: userId,
+          }),
+        })
+        const order = await Orders.json()
+        dispatch(setOrders(order))
       }
     }
     setCart()

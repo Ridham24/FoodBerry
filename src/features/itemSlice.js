@@ -61,9 +61,12 @@ const itemSlice = createSlice({
             temp.push(data)
             state.Orders = temp
             state.cart=[]
+        },
+        setOrders: (state, action) => {
+            state.Orders=action.payload
         }
     },
 })
-export const {addItem,loadItems,loadCategory,loadCurrent,resetCart,loadCart,updateUser,deleteItem,curCart,curMode,addOrders}=itemSlice.actions
+export const {addItem,loadItems,loadCategory,loadCurrent,resetCart,loadCart,updateUser,deleteItem,curCart,curMode,addOrders,setOrders}=itemSlice.actions
 export default itemSlice.reducer
 

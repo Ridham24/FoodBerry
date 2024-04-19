@@ -160,6 +160,22 @@ const addOrder = async(req,res) => {
     console.log(error);
   }
 }
+const getOrders = async (req,res) => {
+  try {
+    const user_id=req.body.user_id
+  const temp = await Orders.findOne({ userId: user_id })
+  if (temp)
+  {
+    res.json(temp.Orders)
+  }
+  else
+    res.json([])
+  }
+  catch (error)
+  {
+    console.log(error)
+  }
+}
 module.exports = {
   createUser,
   getUser,
@@ -171,5 +187,6 @@ module.exports = {
   getCart,
   deleteItem,
   addOrder,
-  resetCart
+  resetCart,
+  getOrders
 }
