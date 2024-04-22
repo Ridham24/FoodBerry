@@ -54,14 +54,23 @@ const Home = () => {
     <>
       <Box sx={{ position: 'relative' }}>
         <ImageSliderAuto />
-        <Box sx={{ position: 'absolute' }} left="35%" top="80%" right="40%">
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '80%',
+            left: 0,
+            right: 0,
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
           <SearchBar search={search} setSearch={setSearch} />
         </Box>
       </Box>
-      <div style={{ display: 'flex' }}>
-        <Typography variant="h2" sx={{ textAlign: 'center', ml: '550px' }}>
-          Food Items
-        </Typography>
+      <Box
+        sx={{ display: 'flex', left: 0, right: 0, justifyContent: 'center' }}
+      >
+        <Typography variant="h2">Food Items</Typography>
         <Button
           id="basic-button"
           aria-controls={open ? 'basic-menu' : undefined}
@@ -69,7 +78,7 @@ const Home = () => {
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
         >
-          <FilterAlt sx={{ fontSize: '50px' }} />
+          <FilterAlt sx={{ fontSize: '30px', color: 'black' }} />
         </Button>
         <Menu
           id="basic-menu"
@@ -87,10 +96,10 @@ const Home = () => {
             </MenuItem>
           ))}
         </Menu>
-      </div>
-      <Grid container spacing="10">
+      </Box>
+      <Grid container spacing={4}>
         {items?.map((item) => (
-          <Grid item xs={6} md={6} lg={3}>
+          <Grid item xs={12} sm={6} md={4} lg={3}>
             <Items item={item} />
           </Grid>
         ))}

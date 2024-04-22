@@ -1,106 +1,83 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Stack, Typography, Box, Button } from '@mui/material'
-import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu'
+import { Box, Button, Typography, IconButton } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { ShoppingCart } from '@mui/icons-material'
-import { resetCart } from '../features/itemSlice'
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import { useDispatch } from 'react-redux'
+
 const Navbar = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken')
+    navigate('/login')
+  }
+
   return (
-    <Stack direction="row" sx={{ bgcolor: '#b3f763', fontSize: '20px' }}>
-      <RestaurantMenuIcon sx={{ height: 'auto' }} />
-      <Link
-        to="/"
-        style={{
-          textDecoration: 'none',
-          paddingTop: '14px',
-          color: 'black',
-        }}
-      >
-        <Typography variant="h5">FoodBerry</Typography>
-      </Link>
-      {localStorage.getItem('authToken') && (
-        <Box sx={{ padding: '10px', boxShadow: '50px' }}>
-          <Button
-            onClick={() => navigate('/orders')}
-            style={{
-              textDecoration: 'none',
-              borderRadius: '8px',
-              paddingTop: '10px',
-              color: '#b3f763',
-              backgroundColor: 'white',
-            }}
-          >
-            My Orders
-          </Button>
-        </Box>
-      )}
-      {!localStorage.getItem('authToken') && (
-        <Box sx={{ marginLeft: 'auto', padding: '10px' }}>
-          <Button
-            onClick={() => navigate('/login')}
-            style={{
-              textDecoration: 'none',
-              paddingTop: '10px',
-              borderRadius: '8px',
-              color: '#b3f763',
-              backgroundColor: 'white',
-            }}
-          >
-            Login
-          </Button>
-          <Button
-            onClick={() => navigate('/register')}
-            style={{
-              textDecoration: 'none',
-              paddingTop: '10px',
-              borderRadius: '8px',
-              color: '#b3f763',
-              marginLeft: '10px',
-              backgroundColor: 'white',
-            }}
-          >
-            Register
-          </Button>
-        </Box>
-      )}
-      {localStorage.getItem('authToken') && (
-        <Box sx={{ marginLeft: 'auto', padding: '10px' }}>
-          <Button
-            onClick={() => navigate('/cart')}
-            style={{
-              textDecoration: 'none',
-              paddingTop: '10px',
-              borderRadius: '8px',
-              color: '#b3f763',
-              marginLeft: '10px',
-              backgroundColor: 'white',
-            }}
-          >
-            <ShoppingCart />
-          </Button>
-          <Button
-            onClick={() => {
-              localStorage.removeItem('authToken')
-              navigate('/login')
-            }}
-            style={{
-              textDecoration: 'none',
-              paddingTop: '10px',
-              borderRadius: '8px',
-              color: '#b3f763',
-              marginLeft: '10px',
-              backgroundColor: 'white',
-            }}
-          >
-            LogOut
-          </Button>
-        </Box>
-      )}
-    </Stack>
+    <Box
+      sx={{
+        bgcolor: '#b3f763',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '10px',
+        flexDirection:{md:'row',xs:'column'}
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <IconButton edge="start" color="inherit" aria-label="menu">
+          <RestaurantMenuIcon />
+        </IconButton>
+        <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
+          <Typography variant="h6" component="div" sx={{ ml: 1 }}>
+            FoodBerry
+          </Typography>
+        </Link>
+      </Box>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        {localStorage.getItem('authToken') ? (
+          <>
+            <Button
+              color="inherit"
+              onClick={() => navigate('/orders')}
+              sx={{ mx: 1 }}
+            >
+              My Orders
+            </Button>
+            <Button
+              color="inherit"
+              onClick={() => navigate('/cart')}
+              sx={{ mx: 1 }}
+            >
+              <ShoppingCartIcon />
+            </Button>
+            <Button color="inherit" onClick={handleLogout} sx={{ mx: 1 }}>
+              LogOut
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              color="inherit"
+              onClick={() => navigate('/login')}
+              sx={{ mx: 1 }}
+            >
+              Login
+            </Button>
+            <Button
+              color="inherit"
+              onClick={() => navigate('/register')}
+              sx={{ mx: 1 }}
+            >
+              Register
+            </Button>
+          </>
+        )}
+      </Box>
+    </Box>
   )
 }
+
 export default Navbar
