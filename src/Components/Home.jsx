@@ -51,7 +51,7 @@ const Home = () => {
     }
   }, [category])
   return (
-    <>
+    <Box sx={{ mt: '50px' }}>
       <Box sx={{ position: 'relative' }}>
         <ImageSliderAuto />
         <Box
@@ -97,14 +97,21 @@ const Home = () => {
           ))}
         </Menu>
       </Box>
-      <Grid container spacing={4}>
-        {items?.map((item) => (
-          <Grid item xs={12} sm={6} md={4} lg={3}>
-            <Items item={item} />
-          </Grid>
-        ))}
-      </Grid>
-    </>
+      <Box sx={{
+        ml: {
+          lg: '50px',
+          md:'30px',
+          xs:'10px'
+      } }}>
+        <Grid container spacing={2} justifyContent="center">
+          {items?.map((item) => (
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Items item={item} />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </Box>
   )
 }
 export default Home

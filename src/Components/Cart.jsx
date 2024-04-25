@@ -122,7 +122,14 @@ const Cart = ({cart,flag}) => {
   
   if (cart.length == 0) return <Typography>Cart is empty!!</Typography>
   return (
-    <div>
+    <Box
+      sx={{
+        mt: flag ?{
+          md: '70px',
+          xs: '103px',
+        }:'0px',
+      }}
+    >
       <Stack>
         <Snackbar
           open={toast}
@@ -149,13 +156,31 @@ const Cart = ({cart,flag}) => {
           // console.log(option)
           return (
             <>
-              <Card sx={{ mb: '15px', ml: '90px', mr: '90px' }}>
-                <Stack direction={'row'}>
+              <Card
+                sx={{
+                  mb: '15px',
+                  ml: {
+                    md: '90px',
+                    xs: '10px',
+                  },
+                  mr: {
+                    md: '90px',
+                    xs: '10px',
+                  },
+                }}
+              >
+                <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                   <CardMedia
                     component="img"
                     image={curItem[0].img}
                     alt="Image"
-                    sx={{ width: '250px', objectFit: 'fill' }}
+                    sx={{
+                      width: {
+                        md: '250px',
+                        xs: '175px',
+                      },
+                      objectFit: 'fill',
+                    }}
                   />
                   <CardContent>
                     <Typography variant="h5">{curItem[0].name}</Typography>
@@ -184,28 +209,32 @@ const Cart = ({cart,flag}) => {
                       <AddCircle sx={{ fontSize: '20px' }} />
                     </IconButton> */}
                     </Stack>
-                    {flag&&<Button
-                      variant="contained"
-                      onClick={() => {
-                        handleOpen(true)
-                        dispatch(curCart(curItem[0]))
-                        dispatch(curMode(item.mode))
-                        // console.log(curItem)
-                      }}
-                    >
-                      Edit
-                    </Button>}
-                    {flag&&<Button
-                      variant="contained"
-                      color="error"
-                      onClick={() => {
-                        handleRemove(curItem[0]._id, item.mode)
-                        console.log(curItem)
-                      }}
-                      sx={{ ml: '8px' }}
-                    >
-                      Remove
-                    </Button>}
+                    {flag && (
+                      <Button
+                        variant="contained"
+                        onClick={() => {
+                          handleOpen(true)
+                          dispatch(curCart(curItem[0]))
+                          dispatch(curMode(item.mode))
+                          // console.log(curItem)
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    )}
+                    {flag && (
+                      <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => {
+                          handleRemove(curItem[0]._id, item.mode)
+                          console.log(curItem)
+                        }}
+                        sx={{ ml: '8px' }}
+                      >
+                        Remove
+                      </Button>
+                    )}
                   </CardContent>
                 </Stack>
               </Card>
@@ -288,13 +317,24 @@ const Cart = ({cart,flag}) => {
           )
         })}
       </Stack>
-      <Box sx={{position:'absolute',left:'40%'}}>
-        {flag&&<Button variant="contained" onClick={handleOrder}>Check Out</Button>}
-        {flag&&<Button variant="contained" color="error" sx={{ ml: '8px' }} onClick={handleClear}>
-          Clear
-        </Button>}
+      <Box sx={{ position: 'absolute', left: '40%' }}>
+        {flag && (
+          <Button variant="contained" onClick={handleOrder}>
+            Check Out
+          </Button>
+        )}
+        {flag && (
+          <Button
+            variant="contained"
+            color="error"
+            sx={{ ml: '8px' }}
+            onClick={handleClear}
+          >
+            Clear
+          </Button>
+        )}
       </Box>
-    </div>
+    </Box>
   )
 }
 export default Cart

@@ -1,4 +1,4 @@
-import { Typography,Button } from "@mui/material"
+import { Typography,Button, Box } from "@mui/material"
 import { useSelector } from "react-redux"
 import Cart from './Cart'
 const Order = () => {
@@ -6,7 +6,10 @@ const Order = () => {
     if (orders.length == 0)
         return <p>No previous orders...</p>
   return (
-      <div style={{marginTop:'5px'}}>
+    <Box sx={{
+      mt: {
+        md:'65px',xs:'103px'
+      }}}>
           {
               orders.map((order) => {
                   return (
@@ -21,7 +24,7 @@ const Order = () => {
                   )
               })
           }
-    </div>
+    </Box>
   )
 }
 export default Order

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Box, Button, Typography, IconButton } from '@mui/material'
+import { Box, Button, Typography, IconButton, AppBar } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
@@ -16,9 +16,12 @@ const Navbar = () => {
   }
 
   return (
-    <Box
+    <AppBar
+      component="nav"
       sx={{
         bgcolor: '#b3f763',
+        mb:'70px',
+        color: 'black',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -76,7 +79,7 @@ const Navbar = () => {
           </>
         )}
       </Box>
-    </Box>
+    </AppBar>
   )
 }
 

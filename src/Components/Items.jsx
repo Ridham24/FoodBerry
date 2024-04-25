@@ -1,4 +1,4 @@
-import { CardMedia, Card, CardContent, Typography, IconButton,Button,Snackbar } from '@mui/material'
+import { CardMedia, Card, CardContent, Typography, IconButton,Button,Snackbar, Box } from '@mui/material'
 import { useState } from 'react'
 import { AddCircle } from '@mui/icons-material'
 import {RemoveCircle} from '@mui/icons-material'
@@ -51,7 +51,7 @@ const Items = ({ item }) => {
     
   }
   return (
-    <>
+    <Box sx={{mr:'10px'}}>
       <Snackbar
         open={toast}
         autoHideDuration={5000}
@@ -64,7 +64,6 @@ const Items = ({ item }) => {
           borderRadius: '10px',
           borderColor: '#6c6363',
           borderWidth: '10px',
-          padding:'30px'
         }}
       >
         <CardMedia
@@ -114,7 +113,7 @@ const Items = ({ item }) => {
           </Button>
         </CardContent>
       </Card>
-    </>
+    </Box>
   )
 }
 export default Items
